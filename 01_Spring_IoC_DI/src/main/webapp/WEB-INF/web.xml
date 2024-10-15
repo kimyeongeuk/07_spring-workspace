@@ -3,16 +3,27 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
-	
-	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<!-- 
+			<context-param> + <listener>
+			ContextLoaderListener 클래스에 의해서
+			스프링 컨테이너 환경설정이 작성되어있는 root-context.xml 파일이 제일 먼저 읽혀지면서
+			Spring Container가 생성됨
+			
+			1) 서버 start시 제일 먼저 web.xml 파일 실행됨
+			2) web.xml 파일에 작성되어있는 <context-param> + <listener>에 의해서
+				 root-context.xml 파일이 제일 먼저 읽혀짐 (pre-loading)
+			3) root-context.xml (Spring Bean Configuration File)에 작성된 빈들이 스프링 컨테이너에 등록됨
+			
+	 -->
+
 
 	<!-- Processes application requests -->
 	<servlet>
