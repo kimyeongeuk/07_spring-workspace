@@ -1,8 +1,11 @@
 package com.br.spring.di;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class PhoneController1 {
@@ -135,12 +138,30 @@ public class PhoneController1 {
 		System.out.println(b);
 	}
 	*/
-	
+
 	@Autowired
 	public void setAandB(Phone phone1, Phone phone2) {
 		a= phone1;
 		b= phone2;
 	}
+
+	
+
+	
+	@RequestMapping("/test2")
+	public String diTest2(String phone,String brand,int price,String date,HttpServletRequest request) {
+		
+		Phone p = new Phone(phone,brand,price,date);
+		request.setAttribute("p", p);
+		
+		System.out.println(p);
+		
+		
+		return "main";
+		
+		
+	}
+	
 	
 	@RequestMapping("/test1")
 	public void diTest1() {
@@ -150,7 +171,10 @@ public class PhoneController1 {
 	
 	
 	
-	
+	@RequestMapping(value={"/","main.do"},method=RequestMethod.GET)
+	public String mainView() {
+		return "main";
+	}
 	
 	
 	

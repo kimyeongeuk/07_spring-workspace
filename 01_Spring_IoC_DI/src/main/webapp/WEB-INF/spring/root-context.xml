@@ -12,12 +12,13 @@
 	</bean>		
 
 		<bean class="com.br.spring.di.Phone" id="phone2">
-			<constructor-arg value="갤럭시 s24"/>
-			<constructor-arg value="Samsung"/>
-			<constructor-arg value="1600000"/>
-			<constructor-arg value="202-02-01"/>
+			<constructor-arg value="갤럭시s"/>
+			<constructor-arg value="삼성"/>
+			<constructor-arg value="123"/>
+			<constructor-arg value="22-55-77"/>
 		</bean>	
 		
+
 		
 		
 		

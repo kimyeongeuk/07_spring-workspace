@@ -40,7 +40,8 @@ public class SpringBeanConfig {
 	
 	// constructor Injection 예시
 	
-	@Bean(name="music2") // name 속성으로 별도로 빈 이름 지정 가능
+	//@Bean(name="music2") // name 속성으로 별도로 빈 이름 지정 가능
+	@Bean
 	public Music abc() {
 		return new Music("EASY","K-POP");
 	}

@@ -16,7 +16,7 @@ public class SpringMain {
 		
 		System.out.println("=======================================");
 		
-		Music m2 = ctx.getBean("music2",Music.class);
+		Music m2 = ctx.getBean("abc",Music.class);
 		Singer s2 = ctx.getBean("singer2", Singer.class);
 		
 		System.out.println(m2);
