@@ -11,6 +11,12 @@
 <script src="${ contextPath }/assets/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+	<c:if test="${ not empty model }">
+	<script>
+		alert('${ model }');
+	</script>
+</c:if>
+	<c:remove var="model"/>
 	
 	<!-- / 또는 /main.do 라는 url mapping으로 요청시 해당 /WEB-INF/views/main.jsp 가 보여지도록 -->
 	<h1>메인페이지 입니다</h1>
@@ -50,7 +56,6 @@
 	
 	
 	<!-- @RequestParam 방법 -->
-	<a href="${ contextPath }/member/detail2.do?no=1">회원상세조회</a> 
 	<br><br>
 	<form action="${ contextPath }/member/enroll2.do" method="post">
 		이름 : <input type="text" name="name"> <br>
@@ -58,6 +63,25 @@
 		주소 : <input type="text" name="addr"> <br>
 		<button type="submit">등록</button>
 	</form>
+	
+	
+	<!-- 커맨드 객체 방법 -->
+	<br><br>
+	<form action="${ contextPath }/member/enroll3.do" method="post">
+		이름 : <input type="text" name="name"> <br>
+		나이 : <input type="text" name="age"> <br>
+		주소 : <input type="text" name="addr"> <br>
+		<button type="submit">등록</button>
+	</form>
+	
+	<hr>
+	
+	<h3>4. 응답페이지로 포워딩시 필요한 데이터 담는 방법</h3>
+	<a href="${ contextPath }/notice/list.do">공지사항 목록페이지로 이동</a>
+	
+	
+	
+	
 	
 	
 	

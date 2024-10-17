@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.br.mvc.dto.MemberDto;
 
 @RequestMapping("/member")
 @Controller
@@ -64,10 +65,10 @@ public class MemberController {
 		System.out.println("조회할 회원번호 : "+no);
 		return "main";
 	}
-	
+
 	@PostMapping("/enroll2.do")
 	public String memberEnroll2(String name // 넘어오는키값이랑 담는 변수명이 같으면 @RequestParam 생략가능
-							   ,int age // 내부적으로 파싱되서 담기는데 값이없으면 오류뜸
+							   ,String age // 내부적으로 파싱되서 담기는데 값이없으면 오류뜸
 							   ,String addr)  // 어노테이션 내에서 value 속성값만 작성할 경우 속성값 생략가능
 	{
 		
@@ -75,8 +76,45 @@ public class MemberController {
 		System.out.println("나이 : "+age);
 		System.out.println("주소 : "+addr);
 		
+		MemberDto mem = new MemberDto();
+		mem.setName(name);
+		mem.setAddr(addr);
+		mem.setAge(age);
+		
+		System.out.println(mem);
+		
+		
 		return "main";
 	}
+	
+	/*
+	 * 3. 커맨드 객체 방법
+	 * 	  요청 파라미터들을 각 필드에 담고자 하는 객체를 커맨드 객체라고 함
+	 * 	  즉, 전달값들을 특정 dto객체에 바로 담고자 할 경우 사용하면 됨
+	 * 
+	 * 	  1) 메소드의 매개변수로 전달값들을 담고자하는 객체를 작성
+	 * 	  2) 요청파라미터의 키값을 담고자하는 객체의 필드명으로 작성하면됨
+	 * 
+	 * 	  > 내부적으로 실행되는 내용
+	 * 		/member/enroll3.do?name="홍길동"&age=20&addr=서울  url요청시
+	 * 		매개변수로 있는 Dto객체를 기본생성자로 생성함
+	 * 		-> 파라미터의 키값가지고 setter메소드를 찾아 실행시켜줌
+	 * 
+	 * 		MemberDto mem = new MemberDto();
+	 * 		mem.setName("홍길동"); 
+	 * 		...
+	 * 
+	 */
+	
+	@PostMapping("/enroll3.do")
+	public String memberEnroll3(MemberDto mem) {
+		
+		System.out.println(mem);
+		
+		return "main";
+	}
+	
+	
 	
 	
 	
