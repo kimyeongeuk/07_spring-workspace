@@ -121,6 +121,14 @@ public class NoticeController {
 		
 	}
 	
+	// ------- redirect시 그때 포워딩 되는 페이지에 필요한 데이터 담는 방법 ------
+	/*
+	 * Model 영역은 requestScope 기 때문에 당장 포워딩되는 jsp에서만 사용가능함
+	 * 즉, redirect로 다른 controller 가 실행되는 순간 현재 만들어진 Model은 소멸됨
+	 */
+	
+	
+	
 	@PostMapping("update.do")
 	public String updateNotice(int no,String title,String content,Model model,HttpServletRequest request,HttpServletResponse response,RedirectAttributes redirectAttributes) {
 		
@@ -144,7 +152,7 @@ public class NoticeController {
 		}else {
 			session.setAttribute("model", "수정 실패");
 		}
-		return "main";
+		return "redirect:/"; // 메인페이지 로드
 	}
 	
 
