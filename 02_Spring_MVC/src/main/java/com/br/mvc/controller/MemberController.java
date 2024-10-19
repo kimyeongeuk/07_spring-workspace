@@ -78,8 +78,9 @@ public class MemberController {
 		
 		MemberDto mem = new MemberDto();
 		mem.setName(name);
-		mem.setAddr(addr);
 		mem.setAge(age);
+		mem.setAddr(addr);
+		
 		
 		System.out.println(mem);
 		

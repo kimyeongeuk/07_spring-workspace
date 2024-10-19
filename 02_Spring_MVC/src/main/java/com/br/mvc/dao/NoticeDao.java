@@ -1,5 +1,6 @@
 package com.br.mvc.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,10 +13,9 @@ import com.br.mvc.dto.NoticeDto;
 @Repository // dao 역할을 하는 클래스에 부여하는 component 어노테이션 (빈 스캐닝에 의해 빈등록됨)
 public class NoticeDao {
 	
-	private List<NoticeDto> dbList = Arrays.asList(
-					new NoticeDto(1,"제목1","내용1")
-				   ,new NoticeDto(2,"제목2","내용2")
-				   ,new NoticeDto(3,"제목3","내용3"));
+	private List<NoticeDto> dbList = Arrays.asList(new NoticeDto(1,"게시글1","내용1")
+			 							,new NoticeDto(2,"게시글2","내용2")
+			 							,new NoticeDto(3,"게시글3","내용3"));
 	
 	public List<NoticeDto> selectNoticeList(){
 		
