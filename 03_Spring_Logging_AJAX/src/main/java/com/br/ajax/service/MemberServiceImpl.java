@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<MemberDto> selectMemberList() {
-		return null;
+		return list;
 	}
 
 }
