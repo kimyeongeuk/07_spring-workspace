@@ -10,8 +10,6 @@
   </resultMap>
   
   
-  
-  
   <select id="selectNoticeList" resultMap="noticeResultMap">
   	select
   				 no
@@ -22,6 +20,47 @@
   	    by no desc
   </select>
   
+  <!-- 번호로 공지사항 조회 -->
+  <select id="selectNoticeByNo" resultMap="noticeResultMap">
+  
+  	select
+  					no
+  			 ,	title
+  			 ,	content
+  		from	notice
+  	 where	no = #{no}
+  </select>
+  <!-- 공지사항 등록 -->
+	<insert id="insertNotice">
+  	insert into notice values(seq_no.nextval,#{title},#{content})
+  </insert>
+  <!-- 공지사항 수정 -->
+  <update id="updateNotice">
+  	update
+  				 notice
+  		 set title = #{title}, content = #{content}
+  	 where no = #{no}
+  </update>  
+  
+  <!-- 공지사항 일괄삭제 -->
+  
+  <delete id="deleteNotice">
+  	delete
+  	  from notice
+  	 where no in 
+	  	 <foreach item="item" collection="array" open="(" close=")" separator=",">
+  	 			#{item}
+	  	 </foreach>
+	  	 <!-- 
+	  	 	<where>
+	  	 		<foreach item="no" collection="array" open="no in (" close=")" separator=",">
+	  	 			#{no}
+	  	 		</foreach>
+	  	 	</where>
+	  	  -->
+	  	 
+	  	 
+  </delete>
   
   
 </mapper>
