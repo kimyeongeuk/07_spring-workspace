@@ -1,4 +1,4 @@
-package com.br.sbatis.dto;
+package com.br.file.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@Builder
-public class NoticeDto {
-	
-	private int no;
-	private String title;
-	private String content;
+public class BoardDto {
 
+	private int boardNo;
+	private String boardTitle;
+	private String boardContent;
+	
 }

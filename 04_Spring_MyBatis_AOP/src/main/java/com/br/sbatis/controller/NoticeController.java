@@ -29,6 +29,8 @@ public class NoticeController {
 		List<NoticeDto> list = noticeService.selectNoticeList();
 		model.addAttribute("list",list);
 		
+		log.debug("list 목록 : {}",list);
+		
 		//return "notice/list";
 	}
 	
@@ -88,8 +90,28 @@ public class NoticeController {
 			return "redirect:/notice/list.do";
 		}
 		ra.addFlashAttribute("alert","삭제 실패");
-		return "main";
+		return "redirect:/";
 	}
+	
+	
+	@GetMapping("/txtest.do")
+	public String transactionTest() {
+		
+		noticeService.transactionTest();
+		
+		return "redirect:/";
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
