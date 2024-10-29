@@ -26,5 +26,6 @@ public class BoardDto {
 	 private int count;
 	 private Date registDate;
 	 private String status;
+	 private int attachCount;
 
 }

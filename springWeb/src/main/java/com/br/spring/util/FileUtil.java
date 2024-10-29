@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileUtil {
 	
-	public Map<String, String> fileupload(MultipartFile uploadFile) {
+	public Map<String, String> fileupload(MultipartFile uploadFile,String folderName) {
 		
 			// 1) 업로드할 폴더 (/upload/yyyyMMdd)
-			String filePath = "/upload/"+ new SimpleDateFormat("yyyyMMdd").format(new Date());
+			String filePath = "/upload/" + folderName + new SimpleDateFormat("/yyyyMMdd").format(new Date());
 			
 			File filePathDir = new File(filePath);
 			if(!filePathDir.exists()) { // 해당 경로의 폴더가 존재하지 않을 경우

@@ -32,5 +32,9 @@ public class MemberDao {
 	public int deleteMember(String userId) {
 		return sqlSession.update("memberMapper.deleteMember",userId);
 	}
+
+	public int updateProfileImg(MemberDto loginUser) {
+		return sqlSession.update("memberMapper.updateProfileImg",loginUser);
+	}
 	
 }

@@ -18,8 +18,9 @@
 		<result column="STATUS" property="status"/>
 	</resultMap>
 
-
+	
 	<!-- 로그인 -->
+	<!-- 
 	<select id="selectMember" resultMap="memberResultMap">
 		select
 						user_no
@@ -39,6 +40,27 @@
 		 	 and	user_id = #{userId}
 		 	 and	user_pwd = #{userPwd}
 	</select>
+	 -->
+	 
+	 	<select id="selectMember" resultMap="memberResultMap">
+		select
+						user_no
+				 ,	user_id
+				 ,	user_pwd
+				 ,	user_name
+				 ,	email
+				 ,	gender
+				 ,	phone
+				 ,	address
+				 ,	profile_url
+				 ,	signup_date
+				 ,	modify_date
+				 ,	status
+		  from	member
+		 where	status in ('Y','A')
+		 	 and	user_id = #{userId}
+	</select>
+	
 	
 	<!-- 회원가입 -->
 	<insert id="insertMember">
@@ -87,6 +109,16 @@
 		 		 , modify_date = sysdate
 		 where user_id = #{userId}
 	</update>
+	
+	<!-- 회원프로필 이미지 수정 -->
+	<update id="updateProfileImg">
+		update
+						member
+			 set	profile_url = #{profileURL}
+			 	 ,	modify_date = sysdate
+		 where	user_no = #{userNo}
+	</update>
+	
 	<!-- 회원탈퇴 (행을 삭제하진 않고 개인정보만 일부지움(이름만 마스킹 처리))-->
 	
 	<update id="deleteMember">
@@ -97,7 +129,7 @@
 			 	 ,	phone = null
 			 	 ,	address = null
 			 	 ,	profile_url = null
-			 	 ,	user_name = rpad(substr(user_name,1,1),length(user_name) ,'*')
+			 	 ,	user_name = substr(user_name,1,1) || rpad('*', length(user_name)-1, '*')
 			 	 ,	status = 'N'
 			 	 ,	modify_date = sysdate
 		 where user_id = #{userId}
