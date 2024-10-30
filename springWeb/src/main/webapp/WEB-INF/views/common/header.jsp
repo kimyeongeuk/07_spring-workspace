@@ -13,6 +13,28 @@
 header{height: 50px}
 header a{color:black;}
 header .profile-img{width:30px;}
+
+
+#boardList th, #boardList td:not(:nth-child(2)){text-align: center;}
+#boardList>tbody>tr:hover{cursor:pointer;}
+
+.page-link {
+    color: #6c757d; 
+    background-color: #fff;
+    border: 1px solid #ccc; 
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #555;
+    font-weight:bold;
+    background-color: #f1f1f1;
+    border-color: #ccc;
+}
+.page-link:focus, .page-link:hover {
+    color: #000;
+    background-color: #fafafa; 
+    border-color: #ccc;
+}
 </style>
 
 

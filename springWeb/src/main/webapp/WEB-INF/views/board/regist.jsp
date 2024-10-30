@@ -1,21 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <!-- Bootstrap 사용을 위한 CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ------------------------- -->
-    <title>Document</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
 <body>
 
-    <div class="container p-3">
+	<div class="container p-3">
 
         <!-- Header, Nav start -->
-        <jsp:include page=""/>
+        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
         <!-- Header, Nav end -->
     
         <!-- Section start -->
@@ -25,19 +23,19 @@
             <h2 class="m-4">게시글 등록</h2>
             <br>
 
-            <form  id="enroll-form" method="post" action="" enctype="">
+            <form  id="enroll-form" method="post" action="${ contextPath }/board/insert.do" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">제목 </label>
-                    <input type="text" class="form-control" id="title" name="" required><br>
+                    <input type="text" class="form-control" id="title" name="boardTitle" required><br>
                     
                     <label for="writer">작성자 </label>
-                    <input type="text" class="form-control" id="writer" name="" value="user01" readonly><br>
+                    <input type="text" class="form-control" id="writer" value="${ loginUser.userId }" readonly><br>
                     
                     <label for="upfile">첨부파일 </label>
-                    <input type="file" class="form-control-file border" id="upfile" name=""><br>
+                    <input type="file" class="form-control-file border" id="upfile" name="uploadFiles" multiple><br>
                     
                     <label for="userName">내용 </label>
-                    <textarea class="form-control" required name="" id="content" rows="10" style="resize:none;"></textarea><br>
+                    <textarea class="form-control" required name="boardContent" id="content" rows="10" style="resize:none;"></textarea><br>
                     
                 </div>
                 <br>
@@ -53,11 +51,10 @@
         <!-- Section end -->
     
         <!-- Footer start -->
-        <jsp:include page=""/>
+        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
         <!-- Footer end -->
     
     </div>
-
-
+<script src="${contextPath }/resources/js/fileValidate.js"></script>
 </body>
 </html>

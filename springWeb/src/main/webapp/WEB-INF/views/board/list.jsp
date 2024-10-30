@@ -8,26 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-        #boardList th, #boardList td:not(:nth-child(2)){text-align: center;}
-        #boardList>tbody>tr:hover{cursor:pointer;}
 
-        .page-link {
-            color: #6c757d; 
-            background-color: #fff;
-            border: 1px solid #ccc; 
-        }
-        .page-item.active .page-link {
-            z-index: 1;
-            color: #555;
-            font-weight:bold;
-            background-color: #f1f1f1;
-            border-color: #ccc;
-        }
-        .page-link:focus, .page-link:hover {
-            color: #000;
-            background-color: #fafafa; 
-            border-color: #ccc;
-        }
     </style>
 </head>
 <body>
@@ -46,9 +27,10 @@
             <br>
 
             <!-- 로그인후 상태일 경우만 보여지는 글쓰기 버튼-->
-            <a class="btn btn-secondary" style="float:right" href="">글쓰기</a>
-            <br>
-            
+            <c:if test="${ not empty loginUser }">
+	            <a class="btn btn-secondary" style="float:right" href="${ contextPath }/board/regist.do">글쓰기</a>
+	            <br>
+            </c:if>
             <br>
             <table id="boardList" class="table table-hover" align="center">
                 <thead>
@@ -70,7 +52,7 @@
                 		</c:when>
                 		<c:otherwise>
                 			<c:forEach var="l" items="${ list }">
-		                    <tr>
+		                    <tr onclick="location.href='${contextPath}/board/detail.do?no=${ l.boardNo }'">
 		                        <td>${ l.boardNo }</td>
 		                        <td>${ l.boardTitle }</td>
 		                        <td>${ l.boardWriter }</td>
@@ -85,7 +67,7 @@
             </table>
             <br>
 
-            <ul class="pagination d-flex justify-content-center">
+            <ul id="paging_area" class="pagination d-flex justify-content-center">
                 <li class="page-item ${ pi.currentPage == 1 ? 'disabled' : '' }"><a class="page-link" href="${ contextPath }/board/list.do?page=${pi.currentPage - 1}">Previous</a></li>
                 <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
                 <li class="page-item ${ pi.currentPage == p ? 'active' : '' }"><a class="page-link" href="${ contextPath }/board/list.do?page=${ p }">${ p }</a></li>
@@ -95,20 +77,43 @@
            
             <br clear="both"><br>
             
-            <form action="" method="get" class="d-flex justify-content-center">
+            <form id="search_form" action="${contextPath }/board/search.do" method="get" class="d-flex justify-content-center">
+               	<input type="hidden" name="page" value="1">
                 <div class="select" >
                     <select class="custom-select" name="condition">
-                        <option value="">작성자</option>
-                        <option value="">제목</option>
-                        <option value="">내용</option>
+                        <option value="user_id">작성자</option>
+                        <option value="board_title">제목</option>
+                        <option value="board_content">내용</option>
                     </select>
                 </div>
                 <div class="text">
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="keyword" value="${ search.keyword }">
                 </div>
                 <button type="submit" class="search_btn btn btn-secondary">검색</button>
             </form>
-          
+            <c:if test="${ not empty search }">
+	            <script>
+	            	$(document).ready(function(){
+	            		$('#search_form select').val('${search.condition}');
+	            		
+	            		// 검색후의 페이징바 클릭시 검색 form 을 강제로 submit (단, 페이지 번호는 현재 클릭한 페이지번호로 바꿔서)
+	            		$('#paging_area a').on('click',function(){
+	            			
+	            			let page = $(this).text(); 
+	            			if(page == 'Previous'){
+	            				page = ${ pi.currentPage - 1 };
+	            			}else if(page == 'Next'){
+	            				page = ${ pi.currentPage + 1 };
+	            			}
+	            			
+	            			$('#search_form input[name=page]').val(page)
+	            			$('#search_form').submit();
+	            			
+	            			return false; // 기본이벤트(href ="/board/list.do url 요청") 동작 막기	
+	            		})
+	            	})
+	            </script>
+          	</c:if>
           </div>
     
         </section>

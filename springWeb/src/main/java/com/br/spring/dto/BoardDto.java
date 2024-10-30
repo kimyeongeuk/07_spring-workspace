@@ -1,6 +1,7 @@
 package com.br.spring.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +28,7 @@ public class BoardDto {
 	 private Date registDate;
 	 private String status;
 	 private int attachCount;
+	 
+	 private List<AttachDto> attachList; // has many 관계
 
 }
