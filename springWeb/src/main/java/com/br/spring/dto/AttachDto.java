@@ -23,6 +23,6 @@ public class AttachDto {
 	 private String originalName;
 	 private Date uploadDate;
 	 private String refType;
-	 private String refNo;
+	 private int refNo;
 
 }

@@ -228,7 +228,29 @@ public class MemberController {
 	}
 	
 	
-	
+	@PostMapping("/updatePwd.do")
+	public String updatePwd(MemberDto m, String updatePwd,HttpSession session,RedirectAttributes ra) {
+		
+		if(bcryptPwdEncoder.matches(m.getUserPwd(), ((MemberDto)session.getAttribute("loginUser")).getUserPwd())) {
+			
+			m.setUserPwd(bcryptPwdEncoder.encode(updatePwd));
+			
+			int result = memberService.updatePwd(m);
+			
+			if(result>0) {
+				ra.addFlashAttribute("alertMsg","비밀번호 변경이 완료되었습니다.");
+			}else {
+				ra.addFlashAttribute("alertMsg","비밀번호 변경이 실패했습니다.");
+			}
+		}else {
+			ra.addFlashAttribute("alertMsg","현재 비밀번호가 틀렸습니다.");
+		}
+		
+		
+		return "redirect:/member/myinfo.do";
+		
+		
+	}
 	
 	
 	

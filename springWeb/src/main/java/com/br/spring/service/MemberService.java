@@ -16,4 +16,6 @@ public interface MemberService {
 	int deleteMember(String userId);
 	// 프로필 사진 변경
 	int updateProfileImg(MemberDto loginUser);
+	// 비밀번호 변경
+	int updatePwd(MemberDto m);
 }

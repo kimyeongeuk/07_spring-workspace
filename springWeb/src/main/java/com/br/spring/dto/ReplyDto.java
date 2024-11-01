@@ -24,7 +24,7 @@ public class ReplyDto {
 	 private String replyContent;
 	 private int refBno;
 	 private String replyWriter;
-	 private Date registDate;
+	 private String registDate;
 	 private String status;
 
 }

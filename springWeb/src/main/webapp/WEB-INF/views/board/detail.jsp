@@ -77,8 +77,11 @@
             <!-- 수정하기, 삭제하기 버튼은 이글이 본인글일 경우만 보여져야됨 -->
             <c:if test="${ loginUser.userId eq b.boardWriter }">
 	            <div align="center">
-	                <a class="btn btn-primary" href="">수정하기</a>
-	                <a class="btn btn-danger" href="">삭제하기</a>
+	            	<form id="frm" action="" method="post">
+	            		<input type="hidden" name="no" value="${ b.boardNo }">
+	                <button class="btn btn-primary" type="submit" onclick="$('#frm').attr('action','${contextPath}/board/modify.do')">수정하기</button>
+	                <button class="btn btn-danger" type="submit" onclick="$('#frm').attr('action','${contextPath}/board/delete.do')">삭제하기</button>
+	            	</form>
 	            </div>
 	          </c:if>  
             <br><br>
@@ -90,31 +93,81 @@
                         <th colspan="2" width="650">
                             <textarea class="form-control" id="reply_content" rows="2" style="resize:none; width:100%"></textarea>
                         </th>
-                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="reply_submit">등록하기</button></th>
+                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="reply_submit" onclick="fn_insertReply()">등록하기</button></th>
                     </tr>
                    </c:if>
                     <tr>
-                       <td colspan="3">댓글 (<span id="rcount">3</span>) </td> 
+                       <td colspan="3">댓글 (<span id="rcount">0</span>) </td> 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>user02</th>
-                        <td>댓글입니다.너무웃기다앙</td>
-                        <td>2020-04-10</td>
-                    </tr>
-                    <tr>
-                        <th>user01</th>
-                        <td>많이봐주세용</td>
-                        <td>2020-04-08</td>
-                    </tr>
-                    <tr>
-                        <th>admin</th>
-                        <td>댓글입니다ㅋㅋㅋ</td>
-                        <td>2020-04-02</td>
-                    </tr>
+
+                  
                 </tbody>
             </table>
+          
+          	<script>
+          		$(document).ready(function(){
+          			fn_replyList();
+          		})
+          	
+          		// 해당 게시글의 댓글 목록 조회용 함수 (ajax) 함수
+          		function fn_replyList(){
+          			$.ajax({
+          				url: '${contextPath}/board/rlist.do',
+          				data: {no: ${b.boardNo}}, 
+          				success:function(res){
+          					console.log(res[0].registDate);
+          					
+          					/*
+                        <tr>
+                            <th>user02</th>
+                            <td>댓글입니다.너무웃기다앙</td>
+                            <td>2020-04-10</td>
+                        </tr>
+                        */
+                        let tr = "";
+                        for(let i=0; i<res.length; i++){
+                        	tr += "<tr>"
+                        		 +		"<th>" + res[i].replyWriter + "</th>"
+                        		 +		"<td>" + res[i].replyContent + "</td>"
+                        		 +		"<td>" + res[i].registDate		+	"</td>"
+                        		 +	"</tr>"
+                        }
+                        
+                        $('#reply_area tbody').html(tr);
+                        
+          				}
+          			})
+          		}
+          		
+          		// 댓글 등록용 (ajax) 함수
+          		function fn_insertReply(){
+          			$.ajax({
+          				url:'${contextPath}/board/rinsert.do',
+          				type:'post',
+          				data: {
+          					replyContent: $('#reply_content').val(),
+          					refBno: ${b.boardNo},
+          				},
+          				success:function(res){
+          					if(res == 'SUCCESS'){
+          						alert('댓글이 등록되었습니다.');
+          						fn_replyList();
+          						$('#reply_content').val('');
+          					}else{
+          						alert('댓글 등록이 실패했습니다.');
+          						fn_replyList();
+          						$('#reply_content').val('');
+          					}
+          				}
+          			})
+          		}
+          		
+          		
+          		
+          	</script>
+          
           
           </div>
     

@@ -2,4 +2,105 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="noticeMapper">
 
+	<resultMap type="NoticeDto" id="noticeResultMap">
+		<result column="NOTICE_NO" property="noticeNo" />
+		<result column="NOTICE_TITLE" property="noticeTitle" />
+		<result column="user_id" property="noticeWriter" />
+		<result column="NOTICE_CONTENT" property="noticeContent" />
+		<result column="REGIST_DATE" property="registDate" />
+		<collection resultMap="attachResultMap" property="attachList" />
+	</resultMap>
+	
+	
+	
+	<resultMap type="AttachDto" id="attachResultMap">
+			<result column="file_no" property="fileNo"/>
+			<result column="file_path" property="filePath"/>
+			<result column="filesystem_name" property="filesystemName"/>
+			<result column="original_Name" property="originalName"/>
+	</resultMap>
+	
+	
+
+
+	<select id="selectNotice" resultMap="noticeResultMap">
+		select
+						notice_no
+				 ,	notice_title
+				 ,	user_id
+				 ,	notice_content
+				 ,	regist_date
+			from	notice
+			join	member on (notice_writer = user_no)
+	   order by 1 desc
+	</select>
+
+	<insert id="insertNotice">
+		insert
+			into	notice
+			(
+				NOTICE_NO
+			,	NOTICE_TITLE
+			,	NOTICE_WRITER
+			,	NOTICE_CONTENT
+			)
+			values
+			(
+				seq_nno.nextval
+			,	#{noticeTitle}
+			,	#{noticeWriter}
+			,	#{noticeContent}
+			)
+	
+	</insert>
+
+	<insert id="insertAttach">
+		insert
+			into	attachment
+			(
+				FILE_NO
+			,	FILE_PATH
+			,	FILESYSTEM_NAME
+			,	ORIGINAL_NAME
+			,	REF_TYPE
+			,	REF_NO
+			)
+			values
+			(
+				seq_ano.nextval
+			,	#{filePath}
+			,	#{filesystemName}
+			, #{originalName}
+			, 'N'
+			,	seq_nno.currval
+			)
+	</insert>
+
+	<select id="detailNotice" resultMap="noticeResultMap">
+			select
+					notice_no
+				 ,	notice_title
+				 ,	user_id
+				 ,	notice_content
+				 ,	regist_date
+         ,  FILE_PATH
+         ,  FILESYSTEM_NAME
+         ,  ORIGINAL_NAME
+			from	notice
+			join	member on (notice_writer = user_no)
+            full join attachment on (notice_no = ref_no)
+           where notice_no = #{no}
+             and ref_type = 'N'
+	
+	</select>
+
+	<select id="noticeListCount" resultType="_int">
+		select
+						count(*)
+			from	notice
+	</select>
+
+
+
+
 </mapper>

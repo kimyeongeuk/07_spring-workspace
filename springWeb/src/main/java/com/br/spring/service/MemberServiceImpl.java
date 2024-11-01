@@ -42,6 +42,11 @@ public class MemberServiceImpl implements MemberService {
 	public int updateProfileImg(MemberDto loginUser) {
 		return memberDao.updateProfileImg(loginUser);
 	}
+
+	@Override
+	public int updatePwd(MemberDto m) {
+		return memberDao.updatePwd(m);
+	}
 	
 	
 }

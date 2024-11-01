@@ -36,5 +36,9 @@ public class MemberDao {
 	public int updateProfileImg(MemberDto loginUser) {
 		return sqlSession.update("memberMapper.updateProfileImg",loginUser);
 	}
+
+	public int updatePwd(MemberDto m) {
+		return sqlSession.update("memberMapper.updatePwd",m);
+	}
 	
 }

@@ -35,6 +35,15 @@
 			<result column="filesystem_name" property="filesystemName"/>
 			<result column="original_Name" property="originalName"/>
 	</resultMap>
+	
+	<resultMap type="ReplyDto" id="replyResultMap">
+		<result column="REPLY_NO" property="replyNo" />
+		<result column="REPLY_CONTENT" property="replyContent" />
+		<result column="regist_date" property="registDate" />
+		<result column="user_id" property="replyWriter" />
+	</resultMap>
+	
+	
 
 	<!-- 혹시라도 has a 관계(1:1)일 경우 => collection 대신에 association 으로 사용 -->
 
@@ -133,7 +142,14 @@
 			,	#{filesystemName}
 			, #{originalName}
 			, #{refType}
-			, seq_bno.currval
+			<choose>
+				<when test="refNo == 0">
+					, seq_bno.currval
+				</when>
+				<otherwise>
+					, #{refNo}
+				</otherwise>
+			</choose>
 			)
 	
 	
@@ -159,11 +175,89 @@
 	</select>
 
 
+	<update id="updateIncreaseCount">
+		update
+						board
+			 set	count = count + 1
+		 where	board_no = #{boardNo}
+		 	 and	status= 'Y'
+	
+	</update>
 
+	<select id="selectReplyList" resultMap="replyResultMap">
+		select
+						reply_no
+				 ,	user_id
+				 ,	reply_content
+				 ,	to_char(regist_date, 'YYYY-MM-dd') regist_date
+			from	reply r
+			join	member on (user_no = reply_writer)
+		 where	ref_bno = #{boardNo}
+		   and	r.status = 'Y'
+		 order by reply_no desc
+		
+		
+	</select>
 
-
-
-
+	<insert id="insertReply">
+		insert
+			into	reply
+			(
+				reply_no
+			,	reply_content
+			,	ref_bno
+			,	reply_writer
+			)
+			values
+			(
+				seq_rno.nextval
+			,	#{replyContent}
+			,	#{refBno}
+			,	#{replyWriter}
+			)
+	</insert>
+	
+	<update id="deleteBoard">
+		update
+						board
+			 set	status = 'N'
+		 where	board_no = #{boardNo}
+	</update>
+	
+	<select id="selectDelAttach" resultMap="attachResultMap">
+		select
+						file_path
+				 ,	filesystem_name
+			from	attachment
+			<where>
+				<foreach collection="array" open="file_no in(" close=")" item="item" separator=",">
+					#{item}
+				</foreach>
+			</where>
+			
+	</select>
+	
+	<update id="updateBoard">
+		update
+						board
+			 set	board_title = #{boardTitle}
+			 	 ,	board_content = #{boardContent}
+		 where	board_no = #{boardNo}
+	
+	</update>
+	
+	<delete id="deleteAttach">
+		delete
+			from	attachment
+		<where>
+			<foreach collection="array" open="file_no in(" close=")" item="item" separator=",">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	
+	
 
 
 </mapper>

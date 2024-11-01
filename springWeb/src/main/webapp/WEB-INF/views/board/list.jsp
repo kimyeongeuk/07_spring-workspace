@@ -52,7 +52,7 @@
                 		</c:when>
                 		<c:otherwise>
                 			<c:forEach var="l" items="${ list }">
-		                    <tr onclick="location.href='${contextPath}/board/detail.do?no=${ l.boardNo }'">
+		                    <tr onclick="location.href='${contextPath}/board/${ loginUser.userId eq l.boardWriter ? 'detail.do' : 'increase.do' }?no=${ l.boardNo }'">
 		                        <td>${ l.boardNo }</td>
 		                        <td>${ l.boardTitle }</td>
 		                        <td>${ l.boardWriter }</td>
