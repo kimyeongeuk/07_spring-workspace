@@ -7,11 +7,18 @@
 		</encoder>
 	</appender>
 	
-	
+	<appender class="ch.qos.logback.core.ConsoleAppender" name="websocketLog">
+		<encoder>
+			<pattern>[%date] - %msg%n</pattern>
+		</encoder>
+	</appender>
 	
 	
 	<logger name="org.springframework" level="INFO"/>
 	<logger name="com.br.spring" level="DEBUG" />
+	<logger name="com.br.spring.handler" level="DEBUG" additivity="false">
+		<appender-ref ref="websocketLog" />
+	</logger>
 	
 	<logger name="jdbc.sqlonly" level="off" /> 			<!-- 쿼리문 -->
 	<logger name="jdbc.sqltiming" level="off" />			<!-- 쿼리문 + 실행시간 -->
